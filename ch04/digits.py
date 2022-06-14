@@ -4,17 +4,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 from two_layer_net import TwoLayerNet
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 # データの読み込み
 
+from sklearn.datasets import load_digits #手書きデータ1797×64#
 
-(x_train, t_train), (x_test, t_test) = 
+dataset = load_digits()
 
-network = TwoLayerNet(input_size=150, hidden_size=10, output_size=3)
+# Numpy配列からDataFrame型へ
+df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
+df['Class'] = dataset.target_names[dataset.target]
 
-iters_num = 100  # 繰り返しの回数を適宜設定する
+# ダミー変数へ変換(one-hot表現)にし、Numpy配列へ
+dataset_dummies = pd.get_dummies(df, columns=['Class'])
+dataset1 = dataset_dummies.values #DataFrameからNumpy配列へ#
+x = dataset1[:, :64] #入力データ#
+t = dataset1[:, 64:] #教師データ#
+
+
+x_train, x_test, t_train, t_test = train_test_split(x, t, test_size=0.4, random_state=0)
+
+network = TwoLayerNet(input_size=64, hidden_size=10, output_size=10)
+
+iters_num = 1000  # 繰り返しの回数を適宜設定する
 train_size = x_train.shape[0]
-batch_size = 10
+batch_size = 11
 learning_rate = 0.1
 
 train_loss_list = []
