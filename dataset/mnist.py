@@ -1,8 +1,9 @@
 # coding: utf-8
-try:
-    import urllib.request
-except ImportError:
-    raise ImportError('You should use Python 3.x')
+# try:
+#     import urllib.request
+# except ImportError:
+#     raise ImportError('You should use Python 3.x')
+import urllib.request
 import os.path
 import gzip
 import pickle
